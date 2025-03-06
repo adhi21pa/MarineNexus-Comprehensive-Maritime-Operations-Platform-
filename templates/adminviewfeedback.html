@@ -1,0 +1,64 @@
+{% include 'adminheader.html' %}
+
+<style type="text/css">
+  #hero {
+    background-image: url(/static/images/a2.jpg);
+    background-size: cover;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+
+  .feedback-card {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+
+  .feedback-card h5 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .feedback-card p {
+    font-size: 14px;
+    color: #555;
+  }
+
+  .feedback-card .date {
+    font-size: 12px;
+    color: #777;
+  }
+</style>
+
+<!-- ======= Hero Section ======= -->
+<section id="hero">
+</section><!-- End Hero -->
+
+<main id="main" style="margin-bottom: 300px;">
+  <center>
+    <h2>Feedback</h2>
+    <div class="row" style="max-width: 900px;">
+
+      {% for row in data['feedback'] %}
+        <div class="col-md-4">
+          <div class="feedback-card">
+            <h5>{{ row['fname'] }} {{ row['lname'] }}</h5>
+            <p>{{ row['feedback'] }}</p>
+            <div class="date">{{ row['date'] }}</div>
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
+  </center>
+</main>
+
+{% include 'footer.html' %}

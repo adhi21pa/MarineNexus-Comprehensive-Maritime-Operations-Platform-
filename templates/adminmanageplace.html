@@ -1,0 +1,226 @@
+{% include 'adminheader.html' %}
+
+<style type="text/css">
+  #hero {
+    background-image: url(/static/images/aa4.jpg);
+    background-size: cover;
+    height: 200px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.3);
+  }
+
+  #hero h1 {
+    font-size: 3em;
+    font-weight: bold;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap; /* Ensures the layout is responsive */
+    margin-top: 30px;
+  }
+
+  .form-container,
+  .place-table {
+    width: 48%; /* Adjusts the width for two columns */
+    max-width: 600px;
+    padding: 30px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .form-container:hover,
+  .place-table:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  .table th,
+  .table td {
+    padding: 12px;
+    text-align: left;
+    font-size: 1.1em;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .table th {
+    background-color: #f3f5f7;
+    color: #f31111;
+  }
+
+  .table td {
+    background-color: #f8f9fa;
+  }
+
+  .btn {
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 1em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-warning {
+    background-color: #ffc107;
+    color: #fff;
+  }
+
+  .btn-warning:hover {
+    background-color: #e0a800;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+  }
+
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    color: #fff;
+  }
+
+  .btn-success:hover {
+    background-color: #218838;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+  }
+
+  h1 {
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    margin-bottom: 30px;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .form-container,
+    .place-table {
+      width: 100%;
+      padding: 20px;
+    }
+  }
+</style>
+
+<!-- Hero Section -->
+<section id="hero">
+  <div class="hero-container">
+  </div>
+</section><!-- End Hero -->
+
+<main id="main">
+  <div class="container">
+    <!-- Left Side: Add/Update Place Form -->
+    <div class="form-container">
+      <form method="post">
+        {% if data['updateplace'] %}
+          <h1>Update Place</h1>
+          <table class="table" style="width: 500px;color: #e20808;">
+            <tr>
+              <td>Country</td>
+              <td>
+                <select name="country_id" class="form-control" style="height: 10%;"> 
+                  {% for row in data['updatecountries'] %}
+                    <option value="{{ row['country_id']}}">{{ row['country']}}</option>
+                  {% endfor %}
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>State and Place</td>
+              <td><input type="text" class="form-control" name="place" value="{{ data['updateplace'][0]['state_place']}}"></td>
+            </tr>
+            <tr>
+              <td colspan="2" align="center">
+                <input type="submit" class="btn btn-warning" name="update" value="Update">
+              </td>
+            </tr>
+          </table>
+        {% else %}
+          <h1>Add Place</h1>
+          <table class="table" style="width: 500px;color: #fff;">
+            <tr>
+              <th>Country</th>
+              <td>
+                <select name="country_id" class="form-control" style="height: 10%;">
+                  <option selected>--select--</option>
+                  {% for row in data['country_id'] %}
+                    <option value="{{ row['country_id']}}">{{ row['country']}}</option>
+                  {% endfor %}
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>State and Place</th>
+              <td><input type="text" class="form-control" name="place" placeholder="Separate both with a '-'"></td>
+            </tr>
+            <tr>
+              <td colspan="2" align="center">
+                <input type="submit" class="btn btn-success" name="add" value="Add">
+              </td>
+            </tr>
+          </table>
+        {% endif %}
+      </form>
+    </div>
+
+    <!-- Right Side: Place Details Table -->
+    <div class="place-table">
+      <center>
+        <h2>Place Details</h2><br>
+        <table class="table">
+          <tr>
+            <th>Country</th>
+            <th>State and Place</th>
+			<th>Delete</th>
+			<th>Update</th>
+          </tr>
+          {% for row in data['place'] %}
+            <tr>
+              <td>{{ row['country'] }}</td>
+              <td>{{ row['state_place'] }}</td>
+              <td><a class="btn btn-danger" href="?action=delete&id={{ row['place_id'] }}">Delete</a></td>
+              <td><a class="btn btn-warning" href="?action=update&id={{ row['place_id'] }}">Update</a></td>
+            </tr>
+          {% endfor %}
+        </table>
+      </center>
+    </div>
+  </div>
+</main>
+
+{% include 'footer.html' %}

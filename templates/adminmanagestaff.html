@@ -1,0 +1,277 @@
+{% include 'company_header.html' %}
+<section id="hero">
+</section>
+
+<form method="post" onsubmit="return validateForm()">
+    <center>
+    {% if data['upd'] %}
+    <h1>Manage Captain</h1>
+    <table class="form-table">
+        <tr>
+            <td>First name</td> 
+            <td><input type="text" class="form-control" name="fname" value="{{data['upd'][0]['firstname']}}" required></td> 
+        </tr>
+        <tr>
+            <td>Last name</td>
+            <td><input type="text" class="form-control" name="lname" value="{{data['upd'][0]['lastname']}}" required></td> 
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>
+                <input type="radio" checked name="gender" value="Male">&nbsp;&nbsp;&nbsp;Male&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="gender" value="Female">&nbsp;&nbsp;&nbsp;Female
+            </td>
+        </tr>
+        <tr>
+            <td>Age</td>
+            <td><input type="text" class="form-control" name="age" value="{{data['upd'][0]['age']}}" required></td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td><input type="text" class="form-control" name="phone" value="{{data['upd'][0]['phone']}}" required></td>        
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="text" class="form-control" name="email" value="{{data['upd'][0]['email']}}" required></td> 
+        </tr>
+        <tr>
+            <td>Designation</td>
+            <td><input type="text" class="form-control" name="designation" value="{{data['upd'][0]['designation']}}" required></td>
+        </tr> 
+        <tr>
+            <td colspan="2" align="center"><input type="submit" name="update" value="Update" class="btn btn-warning"></td>
+        </tr>
+    </table>
+    {% else %}
+    <h1>Manage Captain</h1>
+    <table class="form-table">
+        <tr>
+            <td>First name</td> 
+            <td><input type="text" class="form-control" name="fname" required></td> 
+        </tr>
+        <tr>
+            <td>Last name</td>
+            <td><input type="text" class="form-control" name="lname" required></td> 
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>
+                <input type="radio" checked name="gender" value="Male">&nbsp;&nbsp;&nbsp;Male&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="gender" value="Female">&nbsp;&nbsp;&nbsp;Female
+            </td>
+        </tr>
+        <tr>
+            <td>Age</td>
+            <td><input type="text" class="form-control" name="age" required></td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td><input type="text" class="form-control" name="phone" required></td>        
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="text" class="form-control" name="email" required></td> 
+        </tr>
+        <tr>
+            <td>Designation</td>
+            <td><input type="text" class="form-control" name="designation" required></td>
+        </tr> 
+        <tr>
+            <td>Username</td>
+            <td><input type="text" class="form-control" name="username" required></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" class="form-control" name="password" required></td> 
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><input type="submit" class="btn btn-success" name="submit" value="Register"></td>  
+        </tr>
+    </table>
+    </form> 
+    {% endif %}
+    </center>
+
+    <main id="main">
+        <br><br><br>
+        <center>
+        <table class="staff-table">
+            <h2>Captain Details</h2><br>
+            <tr>
+                <th>First name</th>  
+                <th>Last name</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Designation</th> 
+                <th>Update</th> 
+                <th>Delete</th> 
+            </tr>
+            {% for row in data['staff'] %} 
+            <tr>
+                <td>{{ row['firstname']}}</td> 
+                <td>{{ row['lastname']}}</td> 
+                <td>{{ row['gender']}}</td> 
+                <td>{{ row['age']}}</td> 
+                <td>{{ row['phone']}}</td> 
+                <td>{{ row['email']}}</td> 
+                <td>{{ row['designation']}}</td> 
+                <td><a class="btn btn-warning" href="?action=update&id={{ row['staff_id']}}&login_id={{ row['login_id']}}">Update</a></td> 
+                <td><a class="btn btn-danger" href="?action=delete&id={{ row['staff_id']}}&login_id={{ row['login_id']}}">Delete</a></td>   
+            </tr>
+            {% endfor %} 
+        </table>        
+        </center>
+        <br><br>
+    </main>
+
+    {% include 'footer.html' %}
+
+<script>
+// Validate form inputs
+function validateForm() {
+    // First name validation
+    var fname = document.forms[0]["fname"].value;
+    var lname = document.forms[0]["lname"].value;
+    var phone = document.forms[0]["phone"].value;
+    var email = document.forms[0]["email"].value;
+    var age = document.forms[0]["age"].value;
+    var designation = document.forms[0]["designation"].value;
+    var password = document.forms[0]["password"].value;
+
+    // Regex for validating names (only letters and spaces)
+    var nameRegex = /^[A-Za-z ]+$/;
+    if (!nameRegex.test(fname)) {
+        alert("First name can only contain letters and spaces.");
+        return false;
+    }
+    if (!nameRegex.test(lname)) {
+        alert("Last name can only contain letters and spaces.");
+        return false;
+    }
+
+    // Validate phone number (only digits, max length 10)
+    var phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(phone)) {
+        alert("Phone number should be numeric and 10 digits long.");
+        return false;
+    }
+
+    // Validate age (only digits, max length 2)
+    var ageRegex = /^[0-9]{1,2}$/;
+    if (!ageRegex.test(age)) {
+        alert("Age should be numeric and 1 or 2 digits long.");
+        return false;
+    }
+
+    // Validate email
+    var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailRegex.test(email)) {
+        alert("Please enter a valid email address.");
+        return false;
+    }
+
+    // Validate designation (only letters and spaces)
+    if (!nameRegex.test(designation)) {
+        alert("Designation can only contain letters and spaces.");
+        return false;
+    }
+
+    // Validate password (minimum length 7 characters)
+    if (password.length < 7) {
+        alert("Password must be at least 7 characters long.");
+        return false;
+    }
+
+    return true;
+}
+</script>
+
+<style>
+	#hero {
+		background-image: url(/static/images/a2.jpg);
+		background-size: cover;
+		height: 200px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: white;
+		box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.3);
+		text-align: center;
+	  }
+
+    /* Main form container */
+    .form-table {
+        width: 80%;
+        margin: 20px auto;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+
+    .form-table td {
+        padding: 10px;
+        font-size: 16px;
+        text-align: left;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .form-control:focus {
+        border-color: #66afe9;
+        outline: none;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 5px;
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .btn-warning {
+        background-color: #ff9800;
+    }
+
+    .btn-success {
+        background-color: #4caf50;
+    }
+
+    .btn-danger {
+        background-color: #f44336;
+    }
+
+    .btn:hover {
+        opacity: 0.8;
+    }
+
+    .staff-table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+    }
+
+    .staff-table th, .staff-table td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    .staff-table th {
+        background-color: #f2f2f2;
+    }
+
+    .staff-table tr:hover {
+        background-color: #f9f9f9;
+    }
+</style>
+
