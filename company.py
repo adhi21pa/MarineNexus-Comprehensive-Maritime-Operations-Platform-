@@ -2,7 +2,7 @@ from flask import *
 from database import *
 import pandas as pd
 import pickle
-from bestprediction import *
+
 
 
 company=Blueprint('company',__name__)

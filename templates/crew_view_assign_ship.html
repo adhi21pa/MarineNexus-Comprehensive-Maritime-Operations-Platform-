@@ -1,0 +1,125 @@
+{% include 'crewheader.html' %}
+
+<style type="text/css">
+    /* Hero Section Styling */
+    #hero {
+        background-image: url(/static/images/a4.jpg);
+        background-size: cover;
+        height: 300px;
+        background-position: center;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    #hero h1 {
+        font-size: 3em;
+        font-weight: bold;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Table Styling */
+    table {
+        width: 95%;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: left;
+        font-size: 1.1em;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #13C5DD;
+        color: white;
+        text-transform: uppercase;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+        cursor: pointer;
+    }
+
+    td a {
+        background-color: #13C5DD;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    td a:hover {
+        background-color: #0fa3c1;
+    }
+
+    /* Responsive Styling */
+    @media (max-width: 768px) {
+        table {
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        #hero h1 {
+            font-size: 2em;
+        }
+
+        th, td {
+            font-size: 0.9em;
+        }
+
+        td a {
+            padding: 6px 12px;
+        }
+    }
+</style>
+
+<!-- ======= Hero Section ======= -->
+<section id="hero">
+    <div class="hero-container">
+        
+    </div>
+</section><!-- End Hero -->
+
+<main id="main">
+    <center>
+        <h2 style="font-size: 2.5em; margin-top: 20px; font-weight: bold;">Assigned Ship Details</h2>
+        <table>
+            <tr>
+                <th>From Airport</th>
+                <th>To Airport</th>
+                <th>Start Date/Time</th>
+                <th>End Date/Time</th>
+                <th>Ship Name</th>
+                <th>Company Name</th>
+                <th>View Bookings</th>
+            </tr>
+            {% for row in data['flighttime_id'] %}
+            <tr>
+                <td>{{ row['fname'] }}</td>
+                <td>{{ row['tname'] }}</td>
+                <td>{{ row['start_date_time'] }}</td>
+                <td>{{ row['end_date_time'] }}</td>
+                <td>{{ row['ship_name'] }}</td>
+                <td>{{ row['company_name'] }}</td>
+                <td><a href="crewviewbpassager_details?sid={{ row['package_id'] }}">View Passenger</a></td>  
+            </tr>
+            {% endfor %}
+        </table>
+    </center>
+</main>
+
+{% include 'footer.html' %}

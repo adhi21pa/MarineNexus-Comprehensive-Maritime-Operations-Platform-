@@ -1,0 +1,145 @@
+{% include 'crewheader.html' %}
+
+<style type="text/css">
+  /* Hero Section Styles */
+  #hero {
+    background-image: url(/static/images/a41.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+  }
+
+  #hero h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+  }
+
+  #hero h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .btn-get-started {
+    padding: 10px 30px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.1rem;
+  }
+
+  .btn-get-started:hover {
+    background-color: #0056b3;
+    cursor: pointer;
+  }
+
+  /* Table Styling */
+  table {
+    width: 80%;
+    margin: 30px auto;
+    border-collapse: collapse;
+    font-family: 'Arial', sans-serif;
+  }
+
+  th, td {
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+  }
+
+  th {
+    background-color: #007bff;
+    color: white;
+  }
+
+  td {
+    background-color: #f9f9f9;
+  }
+
+  tr:nth-child(even) td {
+    background-color: #f1f1f1;
+  }
+
+  tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+  }
+
+  td img {
+    width: 100px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  /* Responsive Design for Smaller Screens */
+  @media screen and (max-width: 768px) {
+    table {
+      width: 95%;
+    }
+
+    #hero {
+      height: 300px;
+    }
+
+    #hero h1 {
+      font-size: 2rem;
+    }
+
+    #hero h2 {
+      font-size: 1.2rem;
+    }
+  }
+</style>
+
+<!-- ======= Hero Section ======= -->
+<section id="hero">
+  <div class="hero-container">
+    <h1>Welcome to Passenger Details</h1>
+    <h2>View the list of all passengers</h2>
+  </div>
+</section><!-- End Hero -->
+
+<main id="main">
+  <center>
+    <h1>Passenger Details</h1>
+
+    <table>
+      <tr>
+        <th>Sl.no</th>
+        <th>Names</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Image</th>
+        <th>Seat Allocation</th>
+      </tr> 
+      {% for row in data['passengers'] %} 
+      <tr>
+        <td>{{ loop.index}}</td>
+        <td>{{ row['fname']}} {{ row['lname']}}</td>
+        <td>{{ row['phone']}}</td>
+        <td>{{ row['email']}}</td>
+        <td><img src="/{{ row['path']}}" alt="Passenger Image"></td>
+        <td><a class="btn btn-primary btn-sm" href="staffallocateseat?action=approve&pname={{ row['fname'] }}&pid={{ row['user_id']}}&bid={{row['seat_id']}}&fid={{ row['ship_id'] }}">Allocateseat</a></td>  
+      </tr>
+      {% endfor %} 
+    </table> 
+  </center>
+</main>
+
+{% include 'footer.html' %}

@@ -1,0 +1,124 @@
+{% include 'crewheader.html' %}
+
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    .background-div {
+        background: url('/static/images/a4.jpg');
+        height: 300px;
+        width: 100%;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .card-view {
+        background: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px auto;
+        width: 90%;
+    }
+
+    .card-view th {
+        background-color: #343a40;
+        color: white;
+        padding: 12px;
+        text-align: left;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .card-view td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .card-view tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .card-view .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+        margin: 5px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .card-view .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    .card-view .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+        color: white;
+        margin: 5px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .card-view .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+
+    .card-view .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: white;
+        margin: 5px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .card-view .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+</style>
+
+<div class="background-div"></div>
+
+<center>
+    <form method="post">
+        <h2>Complaints</h2>
+        <table class="table card-view">
+            <tr>
+                <th>Complaint</th>
+                <td><input type="text" name="com" required class="form-control"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" class="btn btn-success" name="submit" value="ADD"></td>
+            </tr>
+        </table>
+
+        <table class="table table-hover card-view">
+            <tr>
+                <th>#</th>
+                <th>Complaint</th>
+                <th>Date</th>
+                <th>Reply</th>
+            </tr>
+            {% for row in data['view'] %}
+            <tr>
+                <td>{{loop.index}}</td>
+				<td>{{row['datetime']}}</td>
+                <td>{{row['complaint']}}</td>
+                <td>{{row['reply']}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+</center>
+
+{% include 'footer.html' %}
