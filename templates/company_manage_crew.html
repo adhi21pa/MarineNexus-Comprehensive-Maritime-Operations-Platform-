@@ -1,0 +1,350 @@
+{% include 'company_header.html' %}
+<style>
+    /* Hero Section */
+    #hero {
+        background-image: url(/static/images/a2.jpg);
+        background-size: cover;
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+        font-size: 3rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        position: relative;
+    }
+
+    #hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 0;
+    }
+
+    #hero div {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Page Content */
+    h1 {
+        text-align: center;
+        margin: 30px 0;
+        font-size: 2.5rem;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .form-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #555;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    select {
+        width: 100%;
+        padding: 14px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-sizing: border-box;
+        transition: all 0.3s ease-in-out;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    select:focus {
+        border-color: #28a745;
+        outline: none;
+        box-shadow: 0 0 5px rgba(40, 167, 69, 0.7);
+    }
+
+    button,
+    input[type="submit"] {
+        padding: 12px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    button:hover,
+    input[type="submit"]:hover {
+        background-color: #218838;
+        transform: translateY(-2px);
+    }
+
+    /* Table Styling */
+    .staff-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 30px;
+    }
+
+    .staff-table th,
+    .staff-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .staff-table th {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .staff-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .staff-table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .staff-table a {
+        text-decoration: none;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+    /* Form Footer */
+    .form-footer {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    /* Search Bar */
+    .search-bar {
+        margin-bottom: 20px;
+        padding: 10px;
+        width: 100%;
+        font-size: 1rem;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 2rem;
+        }
+
+        .form-container {
+            width: 90%;
+            padding: 15px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            padding: 10px;
+        }
+
+        button,
+        input[type="submit"] {
+            padding: 10px 15px;
+        }
+    }
+</style>
+
+<section id="hero">
+    <div>Crew Information Form</div>
+</section>
+
+<div class="form-container">
+    <form method="POST" onsubmit="return validateForm()">
+        {% if data['up'] %}
+        <h1>Update Ship Ports</h1>
+        <center>
+        <table>
+            <tr>
+                <th>Change Ship</th>
+                <td>
+                    <select name="ship_id" class="form-control" required style="width: 350px;">
+                        {% for row in data['updateplace'] %}
+                        <option value="{{ row['ship_id'] }}" >{{ row['ship_name'] }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+
+            <tr >
+               
+                <td colspan="2" align="center">
+                    <input type="submit" class="btn btn-warning" name="update" value="Update">
+                </td>
+            </tr>
+        </table>
+    </center>
+        {% else %}
+        <h1>Add New Crew Member</h1>
+        <div class="form-group">
+            <label for="crew_name">Crew Name:</label>
+            <input type="text" id="crew_name" name="crew_name" required>
+        </div>
+        <div class="form-group">
+            <label for="crew_place">Crew Place:</label>
+            <input type="text" id="crew_place" name="crew_place" required>
+        </div>
+        <div class="form-group">
+            <label for="crew_phone">Crew Phone:</label>
+            <input type="text" id="crew_phone" maxlength="10" name="crew_phone" required>
+        </div>
+        <div class="form-group">
+            <label for="crew_email">Crew Email:</label>
+            <input type="email" id="crew_email" name="crew_email" required>
+        </div>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required pattern="^(?=.*[A-Z])(?=.*\d).{7,}$" title="Password must be at least 7 characters long, including at least one uppercase letter and one number.">
+        </div>
+        <div class="form-group">
+            <label for="shp_id">Ship Name:</label>
+            <select id="shp_id" name="shp_id" required>
+                <option value="">Select a Ship</option>
+                {% for row in data['ship_id'] %}
+                <option value="{{ row['ship_id'] }}">{{ row['ship_name'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-footer">
+            <input type="submit" name="submit" value="Add Crew">
+        </div>
+        {% endif %}
+
+        <main id="main">
+            <br><br><br>
+            <center>
+                <!-- Live Search -->
+                <input type="text" id="searchBar" class="search-bar" placeholder="Search by Crew Name" onkeyup="liveSearch()" />
+
+                <table class="staff-table">
+                    <h2>Crew Details</h2><br>
+                    <tr>
+                        <th>Crew name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Place</th>
+                        <th>Change ship</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for row in data['view'] %}
+                    <tr>
+                        <td>{{ row['crew_name'] }}</td>
+                        <td>{{ row['crew_phone'] }}</td>
+                        <td>{{ row['crew_email'] }}</td>
+                        <td>{{ row['crew_place'] }}</td>
+                        <td><a class="btn btn-warning" href="?action=update&id={{ row['login_id'] }}">Change Ship</a></td>
+                        {% if row['usertype'] == "crew" %}
+                        <td><a class="btn btn-danger" href="?action=block&id={{ row['login_id'] }}">Block</a></td>
+                        {% elif row['usertype'] == "block" %}
+                        <td><a class="btn btn-danger" href="?action=unblock&id={{ row['login_id'] }}">UnBlock</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </center>
+            <br><br>
+        </main>
+    </form>
+</div>
+
+{% include 'footer.html' %}
+
+<script>
+    function validateForm() {
+        // Crew Name Validation (only letters and spaces)
+        var crewName = document.getElementById('crew_name').value;
+        var namePattern = /^[A-Za-z\s]+$/;
+        if (!namePattern.test(crewName)) {
+            alert("Crew Name must only contain letters and spaces.");
+            return false;
+        }
+
+        // Crew Phone Validation (maximum 10 digits)
+        var crewPhone = document.getElementById('crew_phone').value;
+        if (crewPhone.length !== 10 || isNaN(crewPhone)) {
+            alert("Crew Phone must be 10 digits.");
+            return false;
+        }
+
+        // Email Validation
+        var crewEmail = document.getElementById('crew_email').value;
+        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (!emailPattern.test(crewEmail)) {
+            alert("Please enter a valid email address.");
+            return false;
+        }
+    }
+
+    // Live Search Functionality
+    function liveSearch() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById('searchBar');
+        filter = input.value.toUpperCase();
+        table = document.querySelector('.staff-table');
+        tr = table.getElementsByTagName('tr');
+        
+        for (i = 1; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName('td')[0]; // Searching by first column (Crew name)
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

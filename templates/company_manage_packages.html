@@ -1,0 +1,195 @@
+{% include 'company_header.html' %}
+<section id="hero">
+</section>
+<form method="post">
+    <center>
+        <h1>Add Pack Details</h1>
+        <table class="table">
+            <tr>
+                <td>Schedule</td>
+                <td>
+                    <select name="schedule_id" class="form-control" id="schedule_id">
+                        <option selected>select</option>
+                        {% for row in data['schedule_id'] %}
+                            <option value="{{ row['schedule_id'] }}">{{ row['shedule_name'] }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <!-- <tr>
+                <td>Bedroom</td>
+                <td>
+                    <select name="bedroom_id" class="form-control" id="bedroom_id">
+                        <option selected>select</option>
+                        {% for row in data['bedroom_id'] %}
+                            <option value="{{ row['bedroom_id'] }}">{{ row['bedroom_name'] }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr> -->
+            <!-- <tr>
+                <td>Food</td>
+                <td>
+                    <select name="food_id" class="form-control" id="food_id">
+                        <option selected>select</option>
+                        {% for row in data['food_id'] %}
+                            <option value="{{ row['food_id'] }}">{{ row['food_name'] }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr> -->
+            <tr>
+                <td>Pack Title</td>
+                <td>
+                    <input type="text" name="pack_name" class="form-control" id="pack_name" placeholder="Enter Title" />
+                </td>
+            </tr>
+            <tr>
+                <td>Pack Details</td>
+                <td>
+                    <textarea name="pack_details" class="form-control" rows="4" placeholder="Enter pack details here..."></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>Pack Amount</td>
+                <td>
+                    <input type="text" name="pack_amount" class="form-control" id="pack_amount" placeholder="Enter amount" />
+                </td>
+            </tr>
+            <tr>
+                <td>Food Details</td>
+                <td>
+                    <textarea name="food_details" class="form-control" rows="4" placeholder="Enter food details here..."></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>Bedroom Details</td>
+                <td>
+                    <textarea name="bedroom_details" class="form-control" rows="4" placeholder="Enter bedroom details here..."></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" class="btn btn-success" name="add" value="Add Pack">
+                </td>
+            </tr>
+        </table>
+    </center>
+</form>
+
+<main id="main">
+    <center>
+        <h2>Pack Details List</h2>
+        <table class="table">
+            <tr>
+                <th>Schedule</th>
+                <th>Package Name</th>
+                <th>Package Details</th>
+                <th>Bedroom</th>
+                <th>Food</th>
+                <th>Pack Amount</th>
+                <th>Actions</th>
+            </tr>
+            {% for row in data['pack_details'] %}
+                <tr>
+                    <td>{{ row['shedule_name'] }}</td>
+                    <td>{{ row['pack_name'] }}</td>
+                    <td>{{ row['pack_details'] }}</td>
+                    <td>{{ row['bed_room_detail'] }}</td>
+                    <td>{{ row['food_details'] }}</td>
+                    <td>{{ row['pack_amount'] }}</td>
+                    <td>
+                        <a class="btn btn-danger" href="?action=delete&id={{ row['pack_id'] }}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </center>
+</main>
+
+{% include 'footer.html' %}
+
+<style>
+    #hero {
+        background-image: url(/static/images/a2.jpg);
+        background-size: cover;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+
+    h1 {
+        color: #333;
+        font-size: 2em;
+        text-align: center;
+    }
+
+    h2 {
+        color: #333;
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table th, .table td {
+        padding: 12px 15px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    .table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .table tr:hover {
+        background-color: #ddd;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        color: white;
+    }
+
+    .btn-warning {
+        background-color: #ff9800;
+    }
+
+    .btn-success {
+        background-color: #4caf50;
+    }
+
+    .btn-danger {
+        background-color: #f44336;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        background-color: #fff;
+        color: #333;
+    }
+</style>
+
+<script>
+    // Validate that pack_amount is numeric only
+    document.querySelector('form').addEventListener('submit', function(event) {
+        var packAmount = document.getElementById('pack_amount').value;
+        var regex = /^[0-9]+$/; // Only digits allowed
+        if (!regex.test(packAmount)) {
+            alert("Please enter a valid amount (only digits are allowed).");
+            event.preventDefault(); // Prevent form submission
+        }
+    });
+</script>
